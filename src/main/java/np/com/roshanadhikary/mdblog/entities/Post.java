@@ -1,4 +1,4 @@
-package model;
+package np.com.roshanadhikary.mdblog.entities;
 
 import lombok.Data;
 import javax.persistence.*;

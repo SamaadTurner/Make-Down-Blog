@@ -1,4 +1,4 @@
-package model;
+package np.com.roshanadhikary.mdblog.entities;
 
 import java.util.List;
 import javax.persistence.*;

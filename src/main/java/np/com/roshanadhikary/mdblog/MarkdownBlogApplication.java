@@ -1,4 +1,4 @@
-package com.yourdomain.blog;
+package np.com.roshanadhikary.mdblog;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
