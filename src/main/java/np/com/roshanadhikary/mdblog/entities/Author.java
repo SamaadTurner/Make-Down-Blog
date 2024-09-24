@@ -4,6 +4,7 @@ import java.util.List;
 import javax.persistence.*;
 import lombok.Data;
 
+@Data
 @Entity
 @Table(name = "authors")
 public class Author {
