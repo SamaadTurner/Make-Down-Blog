@@ -63,3 +63,35 @@ public class PostController {
         return "post";
     }
 }
+
+// TEST********************************************************************************************************************
+
+// package np.com.roshanadhikary.mdblog.controllers;
+
+// import np.com.roshanadhikary.mdblog.entities.Post;
+// import np.com.roshanadhikary.mdblog.repositories.PostRepository;
+// import org.springframework.beans.factory.annotation.Autowired;
+// import org.springframework.web.bind.annotation.GetMapping;
+// import org.springframework.web.bind.annotation.RestController;
+
+// @RestController
+// public class PostController {
+
+// private final PostRepository postRepository;
+
+// @Autowired
+// public PostController(PostRepository postRepository) {
+// this.postRepository = postRepository;
+// }
+
+// // Test endpoint to check PostRepository functionality
+// @GetMapping("/test")
+// public String testRepository() {
+// Post post = new Post();
+// post.setTitle("Sample Post");
+// post.setContent("This is a sample content.");
+// post.setSynopsis("Sample synopsis");
+// postRepository.save(post);
+// return "Post saved!";
+// }
+// }
