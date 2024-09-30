@@ -12,12 +12,16 @@ import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import io.micrometer.common.lang.NonNull;
 import lombok.Data;
 import np.com.roshanadhikary.mdblog.entities.Author;
 import np.com.roshanadhikary.mdblog.entities.Post;
 import np.com.roshanadhikary.mdblog.repositories.AuthorRepository;
 import np.com.roshanadhikary.mdblog.repositories.PostRepository;
 import np.com.roshanadhikary.mdblog.util.MdFileReader;
+import np.com.roshanadhikary.mdblog.util.MdToHtmlRenderer;
+import np.com.roshanadhikary.mdblog.util.PostUtil;
+import np.com.roshanadhikary.mdblog.util.AuthorUtil;
 
 @Data
 @Component
@@ -32,7 +36,7 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
     private Resource[] postFiles;
 
     @Override
-    public void onApplicationEvent(ContextRefreshedEvent contextRefreshedEvent) {
+    public void onApplicationEvent(@SuppressWarnings("null") ContextRefreshedEvent contextRefreshedEvent) {
         Arrays.stream(postFiles).forEach(postFile -> {
             Optional<String> postFileNameOpt = Optional.ofNullable(postFile.getFilename());
             Post post = new Post();
@@ -42,9 +46,10 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
                 String title = MdFileReader.getTitleFromFileName(postFileName);
 
                 List<String> mdLines = MdFileReader.readLinesFromMdFile(postFileName);
-                String htmlContent = getHtmlContentFromMdLines(mdLines);
+                String htmlContent = PostUtil.getHtmlContentFromMdLines(mdLines);
 
-                Author author = boostrapAuthor(authorRepository);
+                Author author = AuthorUtil.bootstrapAuthor(authorRepository);
+                long id = MdFileReader.getIdFromFileName(postFileName);
 
                 Optional<Post> postOpt = postRepository.findById(id);
                 if (postOpt.isEmpty()) {
@@ -53,7 +58,7 @@ public class ContextEventListener implements ApplicationListener<ContextRefreshe
                     post.setTitle(title);
                     post.setAuthor(author);
                     post.setContent(htmlContent);
-                    post.setSynopsis(getSynopsisFromHtmlContent(htmlContent));
+                    post.setSynopsis(PostUtil.getSynopsisFromHtmlContent(htmlContent));
                     post.setDateTime(LocalDateTime.now());
 
                     postRepository.save(post);
